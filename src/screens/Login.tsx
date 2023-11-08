@@ -121,7 +121,7 @@ const Login = () => {
             ]}
           />
           <View style={loginStyles.input_container}>
-            {/* <AntDesign name="user" size={24} color="black" /> */}
+            <Icon name="user" size={24} />
             <TextInput
               style={loginStyles.input}
               placeholder="Email"

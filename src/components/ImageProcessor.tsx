@@ -1,58 +1,61 @@
-import {View, TouchableOpacity, Text} from 'react-native';
-// import * as ImagePicker from "expo-image-picker";
+import {View, TouchableOpacity} from 'react-native';
+import {
+  launchImageLibrary,
+  ImageLibraryOptions,
+} from 'react-native-image-picker';
 import {homeStyles} from '../Styles';
-import Icon from 'react-native-vector-icons/AntDesign';
+import IconImage from 'react-native-vector-icons/Entypo';
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import TextRecognition from '@react-native-ml-kit/text-recognition';
 
-const ImageProcessor = () => {
+interface Prop {
+  setImageText: (imageText: string) => void;
+}
+
+const ImageProcessor = ({setImageText}: Prop) => {
   const [image, setImage] = useState<string | null>(null);
-  const [text, setText] = useState<string>();
 
-  const pickImage = async () => {
-    // let result = await ImagePicker.launchImageLibraryAsync({});
-    // if (!result.canceled) {
-    //   console.log(result);
-    //   setImage(result.assets[0].uri);
-    // }
+  const imagePickerOptions: ImageLibraryOptions = {
+    mediaType: 'photo',
+  };
+
+  const selectImage = async () => {
+    try {
+      const response = await launchImageLibrary(imagePickerOptions);
+      if (
+        !response.didCancel &&
+        !response.errorMessage &&
+        response.assets &&
+        response.assets.length > 0
+      ) {
+        const selectedImageURI = response.assets[0].uri;
+        setImage(selectedImageURI || '');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    const requestAPI = async () => {
-      const formData = new FormData();
-
+    const fetchText = async () => {
       if (image) {
-        formData.append('url', image);
-        formData.append('language', 'eng');
-        formData.append('scale', 'true');
-        formData.append('isOverlayRequired', 'false');
-
-        const res = await axios.post(
-          'https://api.ocr.space/parse/image',
-          formData,
-          {
-            headers: {
-              apikey: 'K89561263988957',
-            },
-          },
-        );
-        setText(res.data);
+        // console.log(image);
+        const result = await TextRecognition.recognize(image);
+        setImageText(result.text);
       }
     };
-    requestAPI();
-  }, []);
-
-  console.log('recognize text: ', text);
+    fetchText();
+  }, [image]);
 
   return (
     <View style={homeStyles.imagePicker}>
       <TouchableOpacity
-        onPress={pickImage}
+        onPress={selectImage}
         style={{
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Icon name="lock" size={24} />
+        <IconImage name="image" size={24} />
       </TouchableOpacity>
     </View>
   );

@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Text,
-  Alert,
-} from 'react-native';
+import {View, TextInput, TouchableOpacity, FlatList, Text} from 'react-native';
 import ChatBubble from './ChatBubble';
 // import { Entypo, Ionicons, AntDesign } from "@expo/vector-icons";
 import {homeStyles} from '../Styles';
@@ -22,7 +15,9 @@ import {
 } from 'firebase/firestore';
 import {FIRESTORE_DB} from '../FirebaseConfig';
 import ImageProcessor from './ImageProcessor';
-import Icon from 'react-native-vector-icons/AntDesign';
+import IconMenu from 'react-native-vector-icons/Entypo';
+import IconLoading from 'react-native-vector-icons/AntDesign';
+import IconSend from 'react-native-vector-icons/Ionicons';
 
 interface Props {
   openDrawer: () => void;
@@ -39,8 +34,15 @@ interface IMessage {
 const ChatMessages = ({openDrawer, conversationId}: Props) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [input, setInput] = useState<string>('');
+  const [imageText, setImageText] = useState<string>('');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (imageText) {
+      setInput(imageText);
+    }
+  }, [imageText]);
 
   useEffect(() => {
     if (conversationId !== '') {
@@ -127,7 +129,7 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
           openDrawer();
         }}>
         {/* <Entypo name="menu" size={40} color="black" /> */}
-        <Icon name="lock" size={24} />
+        <IconMenu name="menu" size={24} />
       </TouchableOpacity>
       {conversationId === '' ? (
         <View style={{flex: 1}}>
@@ -146,7 +148,7 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
             />
           </View>
           <View style={homeStyles.chatContainer}>
-            <ImageProcessor />
+            <ImageProcessor setImageText={setImageText} />
             <View style={homeStyles.inputContainer}>
               <TextInput
                 style={homeStyles.input}
@@ -156,11 +158,9 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
               />
               <TouchableOpacity onPress={sendMessage} disabled={isLoading}>
                 {isLoading ? (
-                  // <AntDesign name="loading1" size={24} color="black" />
-                  <Icon name="lock" size={24} />
+                  <IconLoading name="loading1" size={24} />
                 ) : (
-                  // <Ionicons name="send-sharp" size={24} color="black" />
-                  <Icon name="lock" size={24} />
+                  <IconSend name="send" size={24} />
                 )}
               </TouchableOpacity>
             </View>

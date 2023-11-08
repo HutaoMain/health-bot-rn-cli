@@ -1,7 +1,9 @@
 import {View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {homeStyles} from '../Styles';
-import Icon from 'react-native-vector-icons/AntDesign';
+import IconDots from 'react-native-vector-icons/Entypo';
+import IconDelete from 'react-native-vector-icons/AntDesign';
+import IconCreate from 'react-native-vector-icons/Ionicons';
 import useAuthStore from '../zustand/AuthStore';
 import UserInitialsAvatar from './UsersInitialAvatar';
 import {useEffect, useState} from 'react';
@@ -78,19 +80,19 @@ const DrawerContent: React.FC<Prop> = ({
 
   return (
     <View style={homeStyles.drawerContainer}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           drawerOpen ? closeDrawer() : openDrawer();
           setDrawerOpen(!drawerOpen);
         }}
         style={homeStyles.drawerCloseBtn}>
-        <Icon name="lock" size={24} />
-      </TouchableOpacity>
+        <Icon name="menu" size={24} />
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         style={homeStyles.drawerNewChatButton}
         onPress={startConversation}>
-        <Icon name="lock" size={24} />
+        <IconCreate name="create-outline" size={24} />
         <Text>New Chat</Text>
       </TouchableOpacity>
 
@@ -107,7 +109,7 @@ const DrawerContent: React.FC<Prop> = ({
             <TouchableOpacity
               style={homeStyles.conversationDeleteButton}
               onPress={() => deleteConversation(conversation.id)}>
-              <Icon name="lock" size={24} />
+              <IconDelete name="delete" size={24} />
             </TouchableOpacity>
           </View>
         ))}
@@ -121,7 +123,7 @@ const DrawerContent: React.FC<Prop> = ({
           onRequestClose={() => setShowPopover(false)}
           from={
             <TouchableOpacity onPress={() => setShowPopover(true)}>
-              <Icon name="lock" size={24} />
+              <IconDots name="dots-three-vertical" size={24} />
             </TouchableOpacity>
           }>
           <TouchableOpacity
