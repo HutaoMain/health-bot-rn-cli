@@ -16,10 +16,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {loginStyles} from '../Styles';
-import {
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import {signInWithEmailAndPassword} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../FirebaseConfig';
 
 const Login = () => {
@@ -79,23 +76,12 @@ const Login = () => {
     }
   };
 
-  const handleForgotPassword = async () => {
-    try {
-      await sendPasswordResetEmail(auth, email);
-      Toast.show({
-        type: 'success',
-        text1: `Please check your email for change of password.`,
-      });
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: `Please type your email in the email section.`,
-      });
-    }
-  };
-
   const handleGoToRegisterScreen = () => {
     navigation.navigate('Register');
+  };
+
+  const handleGoToForgotPassword = () => {
+    navigation.navigate('ForgotPassword');
   };
 
   return (
@@ -111,7 +97,7 @@ const Login = () => {
             },
           ]}>
           <Image
-            source={require('../assets/logo.jpg')}
+            source={require('../assets/logo.png')}
             style={[
               loginStyles.logo,
               {
@@ -143,7 +129,7 @@ const Login = () => {
             <Text></Text>
             <TouchableOpacity
               style={loginStyles.forgotPass}
-              onPress={handleForgotPassword}>
+              onPress={handleGoToForgotPassword}>
               <Text>Forgot password?</Text>
             </TouchableOpacity>
           </View>

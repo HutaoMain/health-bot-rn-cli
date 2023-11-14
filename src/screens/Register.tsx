@@ -18,7 +18,11 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth';
-import {FIREBASE_AUTH} from '../FirebaseConfig';
+import {FIREBASE_AUTH, FIRESTORE_DB} from '../FirebaseConfig';
+import DatePicker from 'react-native-date-picker';
+import SelectDropdown from 'react-native-select-dropdown';
+import {addDoc, collection} from 'firebase/firestore';
+import moment from 'moment';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -27,8 +31,16 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [keyboardVisible, setKeyboardVisible] = useState<boolean>(false);
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  const [dateModal, setDateModal] = useState(false);
+  const [selectedGender, setSelectedGender] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+
+  const gender = ['Male', 'Female'];
 
   const auth = FIREBASE_AUTH;
+
+  const usersCollectionRef = collection(FIRESTORE_DB, 'users');
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -64,11 +76,22 @@ const Register = () => {
         return;
       }
 
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredential => userCredential.user)
-        .then(user => {
-          sendEmailVerification(user);
-        });
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredentials.user;
+
+      await sendEmailVerification(user);
+
+      await addDoc(usersCollectionRef, {
+        email: email,
+        fullName: name,
+        dateOfBirth: dateOfBirth,
+        gender: selectedGender,
+        phoneNumber: phoneNumber,
+      });
 
       Toast.show({
         type: 'success',
@@ -100,19 +123,20 @@ const Register = () => {
           style={[
             registrationStyles.container,
             {
-              marginTop: keyboardVisible ? 20 : 170,
+              marginTop: 0,
             },
           ]}>
           <Image
-            source={require('../assets/logo.jpg')}
+            source={require('../assets/logo.png')}
             style={[
               registrationStyles.logo,
               ,
               {
                 marginBottom: keyboardVisible ? 0 : 30,
-                marginTop: keyboardVisible ? 30 : 0,
-                width: keyboardVisible ? 70 : 100,
-                height: keyboardVisible ? 70 : 100,
+                marginTop: keyboardVisible ? 0 : 0,
+                width: keyboardVisible ? 0 : '100%',
+                height: keyboardVisible ? 0 : 100,
+                display: keyboardVisible ? 'none' : 'flex',
               },
             ]}
           />
@@ -154,6 +178,67 @@ const Register = () => {
               value={confirmPassword}
               onChangeText={setConfirmPassword}
               secureTextEntry
+            />
+          </View>
+          <View style={registrationStyles.input_container}>
+            <Text style={registrationStyles.input_label}>Date of Birth:</Text>
+            <TouchableOpacity
+              style={registrationStyles.input}
+              onPress={() => setDateModal(true)}>
+              <Text>{moment(dateOfBirth).format('YYYY-MM-DD')}</Text>
+            </TouchableOpacity>
+            <DatePicker
+              modal
+              mode="date"
+              open={dateModal}
+              date={dateOfBirth}
+              onConfirm={date => {
+                setDateModal(false);
+                setDateOfBirth(date);
+              }}
+              onCancel={() => {
+                setDateModal(false);
+              }}
+            />
+          </View>
+          <View style={registrationStyles.input_container}>
+            <Text style={registrationStyles.input_label}>Gender</Text>
+            <SelectDropdown
+              buttonStyle={{
+                width: '100%',
+                borderWidth: 1,
+                borderColor: 'black',
+                borderRadius: 10,
+                paddingLeft: 13,
+                marginBottom: 5,
+                marginTop: 3,
+              }}
+              buttonTextStyle={{
+                fontSize: 16,
+                fontWeight: '400',
+              }}
+              data={gender}
+              onSelect={(selectedItem: string, index: number) => {
+                setSelectedGender(selectedItem);
+              }}
+              buttonTextAfterSelection={(
+                selectedItem: string,
+                index: number,
+              ) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item: string, index: number) => {
+                return item;
+              }}
+            />
+          </View>
+          <View style={registrationStyles.input_container}>
+            <Text style={registrationStyles.input_label}>Phone Number</Text>
+            <TextInput
+              style={registrationStyles.input}
+              placeholder="Phone Number"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
             />
           </View>
           <TouchableOpacity

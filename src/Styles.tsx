@@ -23,7 +23,7 @@ export const loginStyles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 100,
+    width: '100%',
     height: 100,
     objectFit: 'cover',
   },
@@ -104,9 +104,11 @@ export const registrationStyles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 100,
+    width: '100%',
     height: 100,
     objectFit: 'cover',
+    padding: 0,
+    margin: 0,
   },
 
   input_container: {
@@ -123,10 +125,11 @@ export const registrationStyles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     paddingLeft: 13,
-    marginBottom: 10,
+    marginBottom: 5,
     marginTop: 3,
     backgroundColor: 'white',
   },
+
   button: {
     width: '90%',
     height: 40,
