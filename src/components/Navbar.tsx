@@ -6,14 +6,13 @@ import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import useAuthStore from '../zustand/AuthStore';
 import {collection, getDocs, query, where} from 'firebase/firestore';
 import {IUser} from '../Types';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const Navbar = () => {
   const [userData, setUserData] = useState<IUser>();
   const auth = FIREBASE_AUTH;
 
   const user = useAuthStore(state => state.user);
-
-  console.log(user);
   const clearUser = useAuthStore(state => state.clearUser);
 
   useEffect(() => {
@@ -57,33 +56,33 @@ const Navbar = () => {
       });
   };
   return (
-    <View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingBottom: 10,
-        }}>
-        <TouchableOpacity onPress={handleLogout} style={{alignItems: 'center'}}>
-          {/* <AntDesign name="logout" size={24} color="black" /> */}
-          <Text>Logout</Text>
-        </TouchableOpacity>
-      </View>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        padding: 20,
+      }}>
       <View
         style={{
           height: 70,
-          width: '100%',
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
           marginBottom: 20,
         }}>
         <View>
-          <Text style={{fontSize: 20}}>Welcome,</Text>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>Welcome,</Text>
+          <Text style={{fontSize: 28, fontWeight: 'bold'}}>
             {userData?.fullName}
           </Text>
         </View>
+      </View>
+      <View style={{height: 70}}>
+        <TouchableOpacity onPress={handleLogout} style={{alignItems: 'center'}}>
+          <Icon name="logout" size={24} />
+          <Text>Logout</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -128,12 +128,16 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
         onPress={() => {
           openDrawer();
         }}>
-        {/* <Entypo name="menu" size={40} color="black" /> */}
         <IconMenu name="menu" size={24} />
+        {conversationId === '' ? (
+          <Text>Please Select Conversation</Text>
+        ) : (
+          <Text></Text>
+        )}
       </TouchableOpacity>
       {conversationId === '' ? (
         <View style={{flex: 1}}>
-          <Text style={homeStyles.chatList}>Please select Conversation</Text>
+          <Text style={homeStyles.chatList}></Text>
         </View>
       ) : (
         <>

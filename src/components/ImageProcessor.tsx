@@ -29,6 +29,7 @@ const ImageProcessor = ({setImageText}: Prop) => {
         response.assets.length > 0
       ) {
         const selectedImageURI = response.assets[0].uri;
+        setImage('Please wait');
         setImage(selectedImageURI || '');
       }
     } catch (error) {
@@ -41,7 +42,10 @@ const ImageProcessor = ({setImageText}: Prop) => {
       if (image) {
         // console.log(image);
         const result = await TextRecognition.recognize(image);
-        setImageText(result.text);
+        setImageText(
+          result.text +
+            ' \n this is from a blood chem result, could you explain this to me',
+        );
       }
     };
     fetchText();

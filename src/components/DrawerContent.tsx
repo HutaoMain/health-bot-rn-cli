@@ -80,15 +80,6 @@ const DrawerContent: React.FC<Prop> = ({
 
   return (
     <View style={homeStyles.drawerContainer}>
-      {/* <TouchableOpacity
-        onPress={() => {
-          drawerOpen ? closeDrawer() : openDrawer();
-          setDrawerOpen(!drawerOpen);
-        }}
-        style={homeStyles.drawerCloseBtn}>
-        <Icon name="menu" size={24} />
-      </TouchableOpacity> */}
-
       <TouchableOpacity
         style={homeStyles.drawerNewChatButton}
         onPress={startConversation}>
@@ -116,9 +107,9 @@ const DrawerContent: React.FC<Prop> = ({
       </ScrollView>
 
       <View style={homeStyles.profileContainer}>
-        <UserInitialsAvatar name={user || ''} />
-        <Text style={homeStyles.name}>{user}</Text>
-        <Popover
+        {/* <UserInitialsAvatar name={user || ''} />
+        <Text style={homeStyles.name}>{user}</Text> */}
+        {/* <Popover
           isVisible={showPopover}
           onRequestClose={() => setShowPopover(false)}
           from={
@@ -131,7 +122,7 @@ const DrawerContent: React.FC<Prop> = ({
             onPress={clearuser}>
             <Text>Logout</Text>
           </TouchableOpacity>
-        </Popover>
+        </Popover> */}
       </View>
     </View>
   );

@@ -166,10 +166,11 @@ export const homeStyles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   drawerButton: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: 20,
     height: 40,
-    width: 40,
+    width: '100%',
     marginTop: 15,
   },
   chatContainer: {
