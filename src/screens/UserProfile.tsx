@@ -99,7 +99,7 @@ const UserProfile = () => {
             {userData?.fullName}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <MaterialCommunityIcons name="email" size={24} />
+            <MaterialCommunityIcons name="email" size={24} color="black" />
             <Text style={{fontSize: 18, color: 'black'}}>
               {userData?.email}
             </Text>
@@ -112,19 +112,20 @@ const UserProfile = () => {
                 userData?.gender === 'Male' ? 'gender-male' : 'gender-female'
               }
               size={24}
+              color="black"
             />
             <Text style={{fontSize: 18, color: 'black'}}>
               {userData?.gender}
             </Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <Fontisto name="date" size={24} />
+            <Fontisto name="date" size={24} color="black" />
             <Text style={{fontSize: 18, color: 'black'}}>
               {moment(userData?.dateOfBirth.toDate()).format('YYYY-MM-DD')}
             </Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <AntDesign name="contacts" size={24} />
+            <AntDesign name="contacts" size={24} color="black" />
             <Text style={{fontSize: 18, color: 'black'}}>
               {userData?.phoneNumber}
             </Text>
@@ -147,6 +148,7 @@ const UserProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="New Password"
+              placeholderTextColor="black"
               secureTextEntry
               value={password}
               onChangeText={setPassword}
@@ -154,6 +156,7 @@ const UserProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="Confirm Password"
+              placeholderTextColor="black"
               secureTextEntry
               value={confirmPassword}
               onChangeText={setConfirmPassword}

@@ -59,7 +59,7 @@ const ImageProcessor = ({setImageText}: Prop) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <IconImage name="image" size={24} />
+        <IconImage name="image" size={24} color="black" />
       </TouchableOpacity>
     </View>
   );

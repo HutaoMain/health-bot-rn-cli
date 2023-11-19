@@ -159,6 +159,7 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
                 onChangeText={text => setInput(text)}
                 value={input}
                 placeholder="Type your message..."
+                placeholderTextColor="black"
               />
               <TouchableOpacity onPress={sendMessage} disabled={isLoading}>
                 {isLoading ? (
