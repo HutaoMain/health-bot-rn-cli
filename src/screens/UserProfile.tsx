@@ -95,12 +95,14 @@ const UserProfile = () => {
       </ImageBackground>
       <View style={styles.container}>
         <View style={{gap: 5}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
             {userData?.fullName}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
             <MaterialCommunityIcons name="email" size={24} />
-            <Text style={{fontSize: 18}}>{userData?.email}</Text>
+            <Text style={{fontSize: 18, color: 'black'}}>
+              {userData?.email}
+            </Text>
           </View>
         </View>
         <View style={{gap: 15, marginTop: 12}}>
@@ -111,17 +113,21 @@ const UserProfile = () => {
               }
               size={24}
             />
-            <Text style={{fontSize: 18}}>{userData?.gender}</Text>
+            <Text style={{fontSize: 18, color: 'black'}}>
+              {userData?.gender}
+            </Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
             <Fontisto name="date" size={24} />
-            <Text style={{fontSize: 18}}>
+            <Text style={{fontSize: 18, color: 'black'}}>
               {moment(userData?.dateOfBirth.toDate()).format('YYYY-MM-DD')}
             </Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
             <AntDesign name="contacts" size={24} />
-            <Text style={{fontSize: 18}}>{userData?.phoneNumber}</Text>
+            <Text style={{fontSize: 18, color: 'black'}}>
+              {userData?.phoneNumber}
+            </Text>
           </View>
         </View>
 
@@ -209,6 +215,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 10,
     borderRadius: 5,
+    color: 'black',
   },
   modalButton: {
     backgroundColor: '#3498db',

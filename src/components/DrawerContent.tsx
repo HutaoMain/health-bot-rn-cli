@@ -23,25 +23,13 @@ import {ConversationInterface} from '../Types';
 import Popover from 'react-native-popover-view';
 
 interface Prop {
-  closeDrawer: () => void;
-  openDrawer: () => void;
-  drawerOpen: any;
-  setDrawerOpen: any;
   setConversationId: (conversationId: string) => void;
 }
 
-const DrawerContent: React.FC<Prop> = ({
-  closeDrawer,
-  openDrawer,
-  drawerOpen,
-  setDrawerOpen,
-  setConversationId,
-}) => {
-  const user = useAuthStore(item => item.user);
+const DrawerContent: React.FC<Prop> = ({setConversationId}) => {
   const [conversations, setConversations] = useState<ConversationInterface[]>(
     [],
   );
-  const [showPopover, setShowPopover] = useState<boolean>(false);
 
   const startConversation = async () => {
     try {
@@ -76,15 +64,13 @@ const DrawerContent: React.FC<Prop> = ({
     return unsubscribe;
   }, []);
 
-  const clearuser = useAuthStore(state => state.clearUser);
-
   return (
     <View style={homeStyles.drawerContainer}>
       <TouchableOpacity
         style={homeStyles.drawerNewChatButton}
         onPress={startConversation}>
-        <IconCreate name="create-outline" size={24} />
-        <Text>New Chat</Text>
+        <IconCreate name="create-outline" size={24} color="black" />
+        <Text style={{color: 'black'}}>New Chat</Text>
       </TouchableOpacity>
 
       <ScrollView style={homeStyles.drawerHistoryContainer}>
@@ -95,12 +81,14 @@ const DrawerContent: React.FC<Prop> = ({
             <TouchableOpacity
               style={homeStyles.conversationButton}
               onPress={() => setConversationId(conversation.id)}>
-              <Text style={{textAlign: 'center'}}>{conversation.name}</Text>
+              <Text style={{textAlign: 'center', color: 'black'}}>
+                {conversation.name}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={homeStyles.conversationDeleteButton}
               onPress={() => deleteConversation(conversation.id)}>
-              <IconDelete name="delete" size={24} />
+              <IconDelete name="delete" size={24} color="black" />
             </TouchableOpacity>
           </View>
         ))}

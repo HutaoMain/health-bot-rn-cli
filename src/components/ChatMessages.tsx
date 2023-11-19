@@ -128,9 +128,9 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
         onPress={() => {
           openDrawer();
         }}>
-        <IconMenu name="menu" size={24} />
+        <IconMenu name="menu" size={24} color="black" />
         {conversationId === '' ? (
-          <Text>Please Select Conversation</Text>
+          <Text style={{color: 'black'}}>Please Select Conversation</Text>
         ) : (
           <Text></Text>
         )}
@@ -162,9 +162,9 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
               />
               <TouchableOpacity onPress={sendMessage} disabled={isLoading}>
                 {isLoading ? (
-                  <IconLoading name="loading1" size={24} />
+                  <IconLoading name="loading1" size={24} color="black" />
                 ) : (
-                  <IconSend name="send" size={24} />
+                  <IconSend name="send" size={24} color="black" />
                 )}
               </TouchableOpacity>
             </View>

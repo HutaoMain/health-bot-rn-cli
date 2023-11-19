@@ -73,7 +73,13 @@ const Navbar = () => {
         }}>
         <View>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>Welcome,</Text>
-          <Text style={{fontSize: 28, fontWeight: 'bold'}}>
+          <Text
+            style={{
+              fontSize: 28,
+              fontWeight: 'bold',
+              width: '70%',
+              flexWrap: 'wrap',
+            }}>
             {userData?.fullName}
           </Text>
         </View>

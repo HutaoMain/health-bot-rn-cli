@@ -43,6 +43,7 @@ export const loginStyles = StyleSheet.create({
     width: '80%',
     height: 40,
     padding: 10,
+    color: 'black',
   },
   forgotContainer: {
     flexDirection: 'row',
@@ -202,6 +203,7 @@ export const homeStyles = StyleSheet.create({
     height: 40,
     width: '90%',
     alignItems: 'center',
+    color: 'black',
   },
   drawerContainer: {
     flex: 1,
