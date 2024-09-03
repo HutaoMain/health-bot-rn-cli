@@ -129,7 +129,7 @@ const Login = () => {
             ]}
           />
           <View style={loginStyles.input_container}>
-            <Icon name="user" size={24} />
+            <Icon name="user" color="gray" size={24} />
             <TextInput
               style={loginStyles.input}
               placeholder="Email"
@@ -139,7 +139,7 @@ const Login = () => {
             />
           </View>
           <View style={loginStyles.input_container}>
-            <Icon name="lock" size={24} />
+            <Icon name="lock" color="gray" size={24} />
             <TextInput
               style={loginStyles.input}
               placeholder="Password"

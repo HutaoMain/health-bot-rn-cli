@@ -38,7 +38,8 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
   };
 
   const handleSummarize = () => {
-    onSummarize(`Could you summarize this in bullet points: "${message}"`);
+    onSummarize(`Summarize this in categorized bullet points with brief category summaries.
+    This summary captures the key elements of organizing information into specific categories (SUGGESTION, CAUSE/SYMPTOM, RECOMMENDATION), using bullet points, and providing summaries for each category. "${message}"`);
   };
 
   return (

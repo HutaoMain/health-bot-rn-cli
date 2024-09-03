@@ -67,7 +67,7 @@ const DrawerContent: React.FC<Prop> = ({setConversationId}) => {
       setConversations(data as ConversationInterface[]);
     };
     fetchData();
-  }, [conversations]);
+  }, []);
 
   console.log('conversation list', conversations);
 

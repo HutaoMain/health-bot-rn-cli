@@ -44,6 +44,8 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeBubbleId, setActiveBubbleId] = useState<string | null>(null);
 
+  console.log('messages: ', messages);
+
   useEffect(() => {
     if (imageText) {
       setInput(imageText);
@@ -51,6 +53,7 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
   }, [imageText]);
 
   useEffect(() => {
+    console.log('Render here in useEffect');
     if (conversationId !== '') {
       const collectionRef = collection(
         FIRESTORE_DB,
