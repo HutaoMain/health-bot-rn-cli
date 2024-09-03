@@ -1,26 +1,22 @@
-import {View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {homeStyles} from '../Styles';
-import IconDots from 'react-native-vector-icons/Entypo';
 import IconDelete from 'react-native-vector-icons/AntDesign';
 import IconCreate from 'react-native-vector-icons/Ionicons';
 import useAuthStore from '../zustand/AuthStore';
-import UserInitialsAvatar from './UsersInitialAvatar';
 import {useEffect, useState} from 'react';
 import {
   collection,
   addDoc,
   serverTimestamp,
   query,
-  orderBy,
-  onSnapshot,
   deleteDoc,
-  DocumentData,
   doc,
+  where,
+  getDocs,
 } from 'firebase/firestore';
 import {FIRESTORE_DB} from '../FirebaseConfig';
 import {ConversationInterface} from '../Types';
-import Popover from 'react-native-popover-view';
 
 interface Prop {
   setConversationId: (conversationId: string) => void;
@@ -31,9 +27,12 @@ const DrawerContent: React.FC<Prop> = ({setConversationId}) => {
     [],
   );
 
+  const user = useAuthStore(state => state.user);
+
   const startConversation = async () => {
     try {
       await addDoc(collection(FIRESTORE_DB, 'conversation'), {
+        email: user,
         name: `Conversation ${Math.floor(Math.random() * 1000)}`,
         createdAt: serverTimestamp(),
       });
@@ -52,17 +51,25 @@ const DrawerContent: React.FC<Prop> = ({setConversationId}) => {
 
   useEffect(() => {
     const collectionRef = collection(FIRESTORE_DB, 'conversation');
-    const q = query(collectionRef, orderBy('createdAt', 'desc'));
 
-    const unsubscribe = onSnapshot(q, (conversation: DocumentData) => {
-      const conversationData = conversation.docs.map((doc: any) => {
-        return {id: doc.id, ...doc.data()};
-      });
-      setConversations(conversationData);
-    });
+    const fetchData = async () => {
+      const q = query(collectionRef, where('email', '==', user));
+      const querySnapshot = await getDocs(q);
 
-    return unsubscribe;
-  }, []);
+      const data = querySnapshot.docs.map(
+        doc =>
+          ({
+            id: doc.id,
+            ...doc.data(),
+          } as ConversationInterface),
+      );
+
+      setConversations(data as ConversationInterface[]);
+    };
+    fetchData();
+  }, [conversations]);
+
+  console.log('conversation list', conversations);
 
   return (
     <View style={homeStyles.drawerContainer}>
@@ -93,25 +100,6 @@ const DrawerContent: React.FC<Prop> = ({setConversationId}) => {
           </View>
         ))}
       </ScrollView>
-
-      <View style={homeStyles.profileContainer}>
-        {/* <UserInitialsAvatar name={user || ''} />
-        <Text style={homeStyles.name}>{user}</Text> */}
-        {/* <Popover
-          isVisible={showPopover}
-          onRequestClose={() => setShowPopover(false)}
-          from={
-            <TouchableOpacity onPress={() => setShowPopover(true)}>
-              <IconDots name="dots-three-vertical" size={24} />
-            </TouchableOpacity>
-          }>
-          <TouchableOpacity
-            style={{paddingVertical: 20, paddingHorizontal: 40}}
-            onPress={clearuser}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
-        </Popover> */}
-      </View>
     </View>
   );
 };

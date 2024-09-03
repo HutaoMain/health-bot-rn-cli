@@ -3,7 +3,6 @@ import React from 'react';
 
 import AuthStackNavigation from './AuthStackNavigation';
 import useAuthStore from '../zustand/AuthStore';
-import BottomTabNavigation from './BottomTabNavigation';
 import HomeStackNavigation from './HomeStackNavigation';
 
 const RootNavigation = () => {

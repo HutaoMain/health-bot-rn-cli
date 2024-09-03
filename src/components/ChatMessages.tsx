@@ -1,7 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {View, TextInput, TouchableOpacity, FlatList, Text} from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  Text,
+  ScrollView,
+} from 'react-native';
 import ChatBubble from './ChatBubble';
-// import { Entypo, Ionicons, AntDesign } from "@expo/vector-icons";
 import {homeStyles} from '../Styles';
 import {getChatReply} from '../OpenAI';
 import {
@@ -35,8 +41,8 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [input, setInput] = useState<string>('');
   const [imageText, setImageText] = useState<string>('');
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [activeBubbleId, setActiveBubbleId] = useState<string | null>(null);
 
   useEffect(() => {
     if (imageText) {
@@ -65,14 +71,14 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
     }
   }, [conversationId]);
 
-  const sendMessage = async () => {
-    if (input.trim().length === 0) return;
+  const sendMessage = async (text: string) => {
+    if (text.trim().length === 0) return;
 
     setIsLoading(true);
 
     const message: IMessage = {
       id: messages.length + 1,
-      message: input,
+      message: text,
       isUser: true,
       createdAt: new Date(),
     };
@@ -93,7 +99,7 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
     setMessages([...messages, message]);
 
     try {
-      const response = await getChatReply(input);
+      const response = await getChatReply(text);
       const aiMessage: IMessage = {
         id: messages.length + 2,
         message: response,
@@ -110,7 +116,7 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
           },
         );
       } catch (error) {
-        console.error('Error saving user message to Firestore:', error);
+        console.error('Error saving AI message to Firestore:', error);
       }
 
       setMessages(prevMessages => [...prevMessages, aiMessage]);
@@ -119,6 +125,52 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleBubbleLongPress = (bubbleId: string) => {
+    setActiveBubbleId(bubbleId === activeBubbleId ? null : bubbleId);
+  };
+
+  const handleSummarize = async (text: string) => {
+    await sendMessage(text);
+    setActiveBubbleId(null);
+  };
+
+  const renderQuickReplies = () => {
+    return (
+      <View style={homeStyles.quickReplyContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity
+            onPress={() => sendMessage('Fever and/or flu like symptoms')}>
+            <Text style={homeStyles.quickReply}>
+              Fever and/or flu like symptoms
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => sendMessage('Pain or discomfort in specific area')}>
+            <Text style={homeStyles.quickReply}>
+              Pain or discomfort in specific area
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              sendMessage('Respiratory issues (coughing, shortness of breath)')
+            }>
+            <Text style={homeStyles.quickReply}>
+              Respiratory issues (coughing, shortness of breath)
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              sendMessage('Digestive issues (nausea, vomiting, diarrhea)')
+            }>
+            <Text style={homeStyles.quickReply}>
+              Digestive issues (nausea, vomiting, diarrhea)
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    );
   };
 
   return (
@@ -143,14 +195,23 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
         <>
           <View style={{flex: 1}}>
             <FlatList
-              data={[...messages]}
+              data={messages}
               renderItem={({item}) => (
-                <ChatBubble message={item.message} isUser={item.isUser} />
+                <ChatBubble
+                  message={item.message}
+                  isUser={item.isUser}
+                  onSummarize={handleSummarize}
+                  onBubbleLongPress={() =>
+                    handleBubbleLongPress(item.id.toString())
+                  }
+                  isActive={activeBubbleId === item.id.toString()}
+                />
               )}
               keyExtractor={item => item.id.toString()}
               style={homeStyles.chatList}
             />
           </View>
+          {renderQuickReplies()}
           <View style={homeStyles.chatContainer}>
             <ImageProcessor setImageText={setImageText} />
             <View style={homeStyles.inputContainer}>
@@ -161,7 +222,9 @@ const ChatMessages = ({openDrawer, conversationId}: Props) => {
                 placeholder="Type your message..."
                 placeholderTextColor="black"
               />
-              <TouchableOpacity onPress={sendMessage} disabled={isLoading}>
+              <TouchableOpacity
+                onPress={sendMessage.bind(null, input)}
+                disabled={isLoading}>
                 {isLoading ? (
                   <IconLoading name="loading1" size={24} color="black" />
                 ) : (

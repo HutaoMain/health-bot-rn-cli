@@ -10,8 +10,8 @@ export type AuthStackNavigationType = {
 // interfaces
 export interface ConversationInterface {
   id: string;
+  email: string;
   name: string;
-  description: string;
   createdAt: Date;
 }
 
@@ -27,6 +27,8 @@ export type HomeNavigationStackProps = {
   Home: undefined;
   Chat: undefined;
   UserProfile: undefined;
+  About: undefined;
+  Insights: undefined;
 };
 
 export type HomeStackProps = NativeStackScreenProps<

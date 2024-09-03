@@ -24,13 +24,7 @@ const Chat = () => {
         drawerWidth={300}
         drawerPosition={'left'}
         renderNavigationView={() => (
-          <DrawerContent
-            closeDrawer={closeDrawer}
-            openDrawer={openDrawer}
-            drawerOpen={drawerOpen}
-            setDrawerOpen={setDrawerOpen}
-            setConversationId={setConversationId}
-          />
+          <DrawerContent setConversationId={setConversationId} />
         )}>
         <ChatMessages openDrawer={openDrawer} conversationId={conversationId} />
       </DrawerLayoutAndroid>

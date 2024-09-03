@@ -69,3 +69,5 @@ yarn-error.log
 __tests__
 ios
 src/ENV.tsx
+.vscode/
+android/

@@ -79,6 +79,79 @@ export const loginStyles = StyleSheet.create({
     color: '#2A3890', // blue
     fontSize: 18,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+  },
+
+  // Style for the modal content
+  modalContent: {
+    justifyContent: 'center',
+    width: '80%', // Adjust width as needed
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5, // For Android shadow
+  },
+
+  // Style for the modal title
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+
+  // Style for the modal text
+  modalText: {
+    fontSize: 14,
+    color: '#333',
+    textAlign: 'left',
+    marginBottom: 20,
+  },
+
+  // Style for the modal button
+  modalButton: {
+    marginTop: 10,
+    backgroundColor: '#007BFF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+
+  // Style for the modal button text
+  modalButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20, // Adjust as needed for spacing
+    marginBottom: 10, // Adjust as needed for spacing
+  },
+
+  // Style for the checkbox
+  checkbox: {
+    width: 20, // Adjust size as needed
+    height: 20, // Adjust size as needed
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: 'black', // Space between checkbox and text
+  },
+
+  // Style for the terms and conditions text
+  termsText: {
+    fontSize: 14,
+    color: '#333', // Dark gray color
+  },
 });
 
 // Registration
@@ -306,6 +379,24 @@ export const homeStyles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  //
+  quickReplyContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+  },
+
+  quickReply: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginRight: 10,
+  },
 });
 
 export const chatBubbleStyles = StyleSheet.create({
@@ -333,5 +424,20 @@ export const chatBubbleStyles = StyleSheet.create({
   },
   aiMessageText: {
     color: '#333',
+  },
+  summarizeButtonContainer: {
+    position: 'absolute',
+
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    borderRadius: 20,
+    padding: 5,
+  },
+  summarizeButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  summarizeButtonText: {
+    color: 'white',
+    fontSize: 12,
   },
 });

@@ -9,8 +9,10 @@ const openai = axios.create({
 export const getChatReply = async (message: string): Promise<string> => {
   const apiKey = OPENAI_APIKEY;
 
-  const instructions = `When responding to inquiries, limit your answers to basic diagnostics and general health tips. Only elaborate on blood chemistry results if asked. For all other topics, 
-    remind the user that you're restricted to basic health advice and blood chemistry explanations. Always advise them to seek professional guidance for comprehensive information.`;
+  const instructions = `Limit responses to basic diagnostics, general health tips, and blood chemistry results. 
+  Explain briefly. For other topics, remind users you're restricted to basic health advice and blood chemistry explanations. 
+  Always advise seeking professional guidance. 
+  When asked about another blood chemistry results, compare them to indicate improvement or worsening.`;
 
   const prompt = `${instructions}\n \n ${message}`;
 
